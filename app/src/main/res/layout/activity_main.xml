@@ -8,18 +8,18 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/sttResult"
+        android:id="@+id/first_sttResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="244dp"
         android:text="음성인식 결과가 여기에 표시됩니다."
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/ttsStart"
+        app:layout_constraintBottom_toTopOf="@+id/first_sttStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/sttStart"
+        android:id="@+id/first_sttStart"
         android:layout_width="315dp"
         android:layout_height="201dp"
         android:layout_marginBottom="72dp"
@@ -28,14 +28,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/ttsStart"
-        android:layout_width="299dp"
-        android:layout_height="83dp"
-        android:text="읽어주기"
-        app:layout_constraintBottom_toTopOf="@+id/sttStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.864" />
 </androidx.constraintlayout.widget.ConstraintLayout>
