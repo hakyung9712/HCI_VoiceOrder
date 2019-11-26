@@ -1,8 +1,5 @@
 package org.order.orderassistant;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
@@ -11,17 +8,19 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 import static android.speech.tts.TextToSpeech.ERROR;
 
-public class SecondActivity extends AppCompatActivity {
+public class Hamburger_Chicken extends AppCompatActivity {
     Intent intent;
     TextToSpeech tts;
     SpeechRecognizer mRecognizer;
@@ -33,14 +32,14 @@ public class SecondActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.hamburger_chicken);
 
         //이전 액티비티에서 값 받아오기
         Intent intent2=getIntent();
         first=intent2.getExtras().getString("first");
 
-        textView = (TextView) findViewById(R.id.second_sttResult);
-        sttBtn = (Button) findViewById(R.id.second_sttStart);
+        textView = (TextView) findViewById(R.id.chicken_sttResult);
+        sttBtn = (Button) findViewById(R.id.chicken_sttStart);
         //ttsBtn = (Button) findViewById(R.id.ttsStart);
 
         //tts 객체 생성하고 OnInitListener로 초기화 함
@@ -49,7 +48,7 @@ public class SecondActivity extends AppCompatActivity {
             public void onInit(int status) {
                 if (status != ERROR) {
                     tts.setLanguage(Locale.KOREAN);
-                    tts.speak("햄버거를 고를지, 사이드 메뉴를 고를지 선택해주세요", TextToSpeech.QUEUE_FLUSH, null);
+                    tts.speak("메뉴 종류로는 상하이버거와 맥치킨이 있습니다. 이 중에 선택해주세요", TextToSpeech.QUEUE_FLUSH, null);
                 }
             }
         });
@@ -161,25 +160,23 @@ public class SecondActivity extends AppCompatActivity {
             }
             Toast.makeText(getApplicationContext(), matches.toString(), Toast.LENGTH_LONG).show();
 
-            String txt1 = "햄버거";
-            String txt2 = "사이드";
-            if (matches.toString().contains(txt1)) {
-                Toast.makeText(getApplicationContext(), "햄버거 선택", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), Third_Hamburger.class);
-                intent.putExtra("first",first);
-                intent.putExtra("second", "햄버거");
-                startActivity(intent);
-                finish();
-            } else if (matches.toString().contains(txt2)) {
-                Toast.makeText(getApplicationContext(), "사이드 선택", Toast.LENGTH_LONG).show();
-                /*Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
-                intent.putExtra("first",first);
-                intent.putExtra("second", "사이드");
-                startActivity(intent);
-                finish();
+            String txt1 = "상하이";
+            String txt2 = "맥치킨";
 
-                 */
-            } else {
+            if (matches.toString().contains(txt1)) {
+                Toast.makeText(getApplicationContext(), "상하이버거 선택", Toast.LENGTH_LONG).show();
+                //Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
+                //intent.putExtra("first",first);
+                //startActivity(intent);
+                //finish();
+            } else if (matches.toString().contains(txt2)) {
+                Toast.makeText(getApplicationContext(), "맥치킨 선택", Toast.LENGTH_LONG).show();
+                //Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
+                //intent.putExtra("first",first);
+                //startActivity(intent);
+                //finish();
+            }
+            else {
                 tts.speak("한번 더 말해주세요.", TextToSpeech.QUEUE_FLUSH, null);
             }
 
