@@ -11,12 +11,14 @@
         android:id="@+id/meat_sttResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:layout_marginBottom="244dp"
         android:text="음성인식 결과가 여기에 표시됩니다."
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/second_sttStart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/meat_sttStart"

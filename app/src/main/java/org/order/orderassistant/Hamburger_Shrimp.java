@@ -160,24 +160,22 @@ public class Hamburger_Shrimp extends AppCompatActivity {
             }
             Toast.makeText(getApplicationContext(), matches.toString(), Toast.LENGTH_LONG).show();
 
-            String txt1 = "고기";
-            String txt2 = "치킨";
-            String txt3= "새우";
+            String txt1 = "슈슈";
+            String txt2 = "슈비";
             if (matches.toString().contains(txt1)) {
-                Toast.makeText(getApplicationContext(), "고기패티 선택", Toast.LENGTH_LONG).show();
-                //Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
+                Toast.makeText(getApplicationContext(), "슈슈버거 선택", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
                 intent.putExtra("first",first);
+                intent.putExtra("menu","슈슈버거");
                 startActivity(intent);
                 finish();
             } else if (matches.toString().contains(txt2)) {
-                Toast.makeText(getApplicationContext(), "치킨패티 선택", Toast.LENGTH_LONG).show();
-                //Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
+                Toast.makeText(getApplicationContext(), "슈비버거 선택", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
                 intent.putExtra("first",first);
+                intent.putExtra("menu","슈비버거");
                 startActivity(intent);
                 finish();
-            }else if(matches.toString().contains(txt3)){
-                Toast.makeText(getApplicationContext(), "새우패티 선택", Toast.LENGTH_LONG).show();
-
             }
             else {
                 tts.speak("한번 더 말해주세요.", TextToSpeech.QUEUE_FLUSH, null);

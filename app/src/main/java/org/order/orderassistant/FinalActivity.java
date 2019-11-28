@@ -26,13 +26,13 @@ public class FinalActivity extends AppCompatActivity {
     Intent intent;
     SpeechRecognizer mRecognizer;
     Button sttBtn;
-    TextView textView;
+    TextView textView,textView2;
     final int PERMISSION = 1;
     String first,menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_final);
 
         Intent intent2=getIntent();
         first=intent2.getExtras().getString("first");
@@ -40,8 +40,12 @@ public class FinalActivity extends AppCompatActivity {
         Log.d("success",first);
         Log.d("success",menu);
 
-        textView = (TextView) findViewById(R.id.first_sttResult);
-        sttBtn = (Button) findViewById(R.id.first_sttStart);
+
+        textView = (TextView) findViewById(R.id.final_sttResult);
+        textView2 = (TextView) findViewById(R.id.final_sttResult2);
+        textView.setText(first);
+        textView2.setText(menu);
+        sttBtn = (Button) findViewById(R.id.final_sttStart);
 
         //tts 객체 생성하고 OnInitListener로 초기화 함
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -49,10 +53,8 @@ public class FinalActivity extends AppCompatActivity {
             public void onInit(int status) {
                 if (status != ERROR) {
                     tts.setLanguage(Locale.KOREAN);
-                    //String을 text로 바꾸는게 안됨
-                    tts.speak(first, TextToSpeech.QUEUE_FLUSH, null);
-                    tts.speak(menu, TextToSpeech.QUEUE_FLUSH, null);
-                    tts.speak("주문하셨습니다.", TextToSpeech.QUEUE_FLUSH, null);
+
+                    tts.speak(textView2.getText().toString()+" "+textView.getText().toString()+"주문하셨습니다.", TextToSpeech.QUEUE_FLUSH, null);
                     /*
                     if(first=="매장"){
                         tts.speak("매장에서", TextToSpeech.QUEUE_FLUSH, null);

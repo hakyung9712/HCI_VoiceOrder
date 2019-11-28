@@ -165,16 +165,18 @@ public class Hamburger_Chicken extends AppCompatActivity {
 
             if (matches.toString().contains(txt1)) {
                 Toast.makeText(getApplicationContext(), "상하이버거 선택", Toast.LENGTH_LONG).show();
-                //Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
-                //intent.putExtra("first",first);
-                //startActivity(intent);
-                //finish();
+                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
+                intent.putExtra("first",first);
+                intent.putExtra("menu","상하이버거");
+                startActivity(intent);
+                finish();
             } else if (matches.toString().contains(txt2)) {
                 Toast.makeText(getApplicationContext(), "맥치킨 선택", Toast.LENGTH_LONG).show();
-                //Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
-                //intent.putExtra("first",first);
-                //startActivity(intent);
-                //finish();
+                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
+                intent.putExtra("first",first);
+                intent.putExtra("menu","맥치킨");
+                startActivity(intent);
+                finish();
             }
             else {
                 tts.speak("한번 더 말해주세요.", TextToSpeech.QUEUE_FLUSH, null);
