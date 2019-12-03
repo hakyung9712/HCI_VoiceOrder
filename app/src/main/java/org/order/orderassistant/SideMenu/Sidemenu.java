@@ -1,4 +1,4 @@
-package org.order.orderassistant;
+package org.order.orderassistant.SideMenu;
 
 import android.Manifest;
 import android.content.Intent;
@@ -15,32 +15,36 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import org.order.orderassistant.FinalActivity;
+import org.order.orderassistant.Hamburger.HamburgerFinalActivity;
+import org.order.orderassistant.R;
+import org.order.orderassistant.SecondActivity;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
 import static android.speech.tts.TextToSpeech.ERROR;
 
-public class Third_Hamburger extends AppCompatActivity {
-    Intent intent;
+public class Sidemenu extends AppCompatActivity {
     TextToSpeech tts;
+    Intent intent;
     SpeechRecognizer mRecognizer;
-    TextView textView;
     Button sttBtn;
+    TextView textView;
     final int PERMISSION = 1;
-    String first;
+    String first, menu, side;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_third_hamburger);
+        setContentView(R.layout.activity_main);
 
-        //이전 액티비티에서 값 받아오기
-        Intent intent2=getIntent();
-        first=intent2.getExtras().getString("first");
+        Intent intent2 = getIntent();
+        first = intent2.getExtras().getString("first");
+        menu = intent2.getExtras().getString("menu");
 
-        textView = (TextView) findViewById(R.id.third_sttResult);
-        sttBtn = (Button) findViewById(R.id.third_sttStart);
-        //ttsBtn = (Button) findViewById(R.id.ttsStart);
+        textView = (TextView) findViewById(R.id.first_sttResult);
+        sttBtn = (Button) findViewById(R.id.first_sttStart);
 
         //tts 객체 생성하고 OnInitListener로 초기화 함
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -48,7 +52,7 @@ public class Third_Hamburger extends AppCompatActivity {
             public void onInit(int status) {
                 if (status != ERROR) {
                     tts.setLanguage(Locale.KOREAN);
-                    tts.speak("패티종류로는 고기, 치킨, 새우가 있습니다.패티를 골라주세요", TextToSpeech.QUEUE_FLUSH, null);
+                    tts.speak("사이드 메뉴로는 후렌치후라이, 맥너겟, 해쉬브라운,치킨텐더가 있습니다. 이중에서 선택해주세요.", TextToSpeech.QUEUE_FLUSH, null);
                 }
             }
         });
@@ -160,30 +164,58 @@ public class Third_Hamburger extends AppCompatActivity {
             }
             Toast.makeText(getApplicationContext(), matches.toString(), Toast.LENGTH_LONG).show();
 
-            String txt1 = "고기";
-            String txt2 = "치킨";
-            String txt3= "새우";
+            //후렌치후라이, 맥너겟, 해쉬브라운,치킨텐더
+            String txt1 = "후렌치후라이";
+            String txt2 = "맥너겟";
+            String txt3 = "해쉬브라운";
+            String txt4 = "치킨텐더";
+            String txt5 = "없어요";
+            String txt6 = "안할래요";
+
             if (matches.toString().contains(txt1)) {
-                Toast.makeText(getApplicationContext(), "고기패티 선택", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), Hamburger_Meat.class);
-                intent.putExtra("first",first);
-                Toast.makeText(getApplicationContext(), first, Toast.LENGTH_LONG).show();
+                side = txt1;
+                Toast.makeText(getApplicationContext(), "후렌치후라이", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
+                intent.putExtra("first", first);
+                intent.putExtra("menu", menu);
+                intent.putExtra("side", side);
                 startActivity(intent);
                 finish();
             } else if (matches.toString().contains(txt2)) {
-                Toast.makeText(getApplicationContext(), "치킨패티 선택", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), Hamburger_Chicken.class);
-                intent.putExtra("first",first);
+                side = txt2;
+                Toast.makeText(getApplicationContext(), "맥너겟", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
+                intent.putExtra("first", first);
+                intent.putExtra("menu", menu);
+                intent.putExtra("side", side);
                 startActivity(intent);
                 finish();
-            }else if(matches.toString().contains(txt3)){
-                Toast.makeText(getApplicationContext(), "새우패티 선택", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), Hamburger_Shrimp.class);
-                intent.putExtra("first",first);
+            } else if (matches.toString().contains(txt3)) {
+                side = txt3;
+                Toast.makeText(getApplicationContext(), "해쉬 브라운", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
+                intent.putExtra("first", first);
+                intent.putExtra("menu", menu);
+                intent.putExtra("side", side);
                 startActivity(intent);
                 finish();
-            }
-            else {
+            } else if (matches.toString().contains(txt4)) {
+                side = txt4;
+                Toast.makeText(getApplicationContext(), "치킨 텐더", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
+                intent.putExtra("first", first);
+                intent.putExtra("menu", menu);
+                intent.putExtra("side", side);
+                startActivity(intent);
+                finish();
+            } else if (matches.toString().contains(txt5) || matches.toString().contains(txt6)) {
+                Toast.makeText(getApplicationContext(), "주문 취소", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), HamburgerFinalActivity.class);
+                intent.putExtra("first", first);
+                intent.putExtra("menu", menu);
+                startActivity(intent);
+                finish();
+            } else {
                 tts.speak("한번 더 말해주세요.", TextToSpeech.QUEUE_FLUSH, null);
             }
 

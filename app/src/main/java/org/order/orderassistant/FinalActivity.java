@@ -1,5 +1,9 @@
 package org.order.orderassistant;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
@@ -8,13 +12,11 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
+import org.order.orderassistant.Hamburger.Third_Hamburger;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -22,30 +24,35 @@ import java.util.Locale;
 import static android.speech.tts.TextToSpeech.ERROR;
 
 public class FinalActivity extends AppCompatActivity {
-    TextToSpeech tts;
     Intent intent;
+    TextToSpeech tts;
     SpeechRecognizer mRecognizer;
+    TextView textView,textView2,textView3;
     Button sttBtn;
-    TextView textView,textView2;
     final int PERMISSION = 1;
-    String first,menu;
+    String first,menu,side;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final);
 
+        //이전 액티비티에서 값 받아오기
         Intent intent2=getIntent();
         first=intent2.getExtras().getString("first");
         menu=intent2.getExtras().getString("menu");
-        Log.d("success",first);
-        Log.d("success",menu);
-
+        side=intent2.getExtras().getString("side");
 
         textView = (TextView) findViewById(R.id.final_sttResult);
         textView2 = (TextView) findViewById(R.id.final_sttResult2);
+        textView3 = (TextView) findViewById(R.id.final_sttResult3);
+
         textView.setText(first);
         textView2.setText(menu);
-        sttBtn = (Button) findViewById(R.id.final_sttStart);
+        textView3.setText(side);
+
+        sttBtn = (Button) findViewById(R.id.second_sttStart);
+        //ttsBtn = (Button) findViewById(R.id.ttsStart);
 
         //tts 객체 생성하고 OnInitListener로 초기화 함
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -53,25 +60,12 @@ public class FinalActivity extends AppCompatActivity {
             public void onInit(int status) {
                 if (status != ERROR) {
                     tts.setLanguage(Locale.KOREAN);
+                    if(side==null){
 
-                    tts.speak(textView2.getText().toString()+" "+textView.getText().toString()+"주문하셨습니다.", TextToSpeech.QUEUE_FLUSH, null);
-                    /*
-                    if(first=="매장"){
-                        tts.speak("매장에서", TextToSpeech.QUEUE_FLUSH, null);
-                        tts.speak(menu, TextToSpeech.QUEUE_FLUSH, null);
-                        tts.speak("주문하셨습니다.", TextToSpeech.QUEUE_FLUSH, null);
-
-                    }else if(first=="포장"){
-                        tts.speak("매장에서", TextToSpeech.QUEUE_FLUSH, null);
-                        tts.speak(menu, TextToSpeech.QUEUE_FLUSH, null);
-                        tts.speak("주문하셨습니다.", TextToSpeech.QUEUE_FLUSH, null);
+                        tts.speak("주문이 완료되었습니다. 감사합니다.", TextToSpeech.QUEUE_FLUSH, null);
+                    }else if(side !=null) {
+                        tts.speak(textView2.getText().toString()+"와"+textView3.getText().toString()+" "+textView.getText().toString()+" "+"주문하셨습니다.감사합니다.", TextToSpeech.QUEUE_FLUSH, null);
                     }
-                    else{
-                        tts.speak("주문이 잘못되었습니다.",TextToSpeech.QUEUE_FLUSH,null);
-                    }
-
-                     */
-
                 }
             }
         });
@@ -183,25 +177,7 @@ public class FinalActivity extends AppCompatActivity {
             }
             Toast.makeText(getApplicationContext(), matches.toString(), Toast.LENGTH_LONG).show();
 
-            String txt1 = "매장";
-            String txt2 = "포장";
-            if (matches.toString().contains(txt1)) {
-                Toast.makeText(getApplicationContext(), "매장 주문", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
-                intent.putExtra("first", "매장");
-                startActivity(intent);
-                finish();
-            } else if (matches.toString().contains(txt2)) {
-                Toast.makeText(getApplicationContext(), "포장 주문", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
-                intent.putExtra("first", "포장");
-                startActivity(intent);
-                finish();
-            } else {
-                tts.speak("한번 더 말해주세요.", TextToSpeech.QUEUE_FLUSH, null);
-            }
-
-
+            
         }
 
         //부분 인식 결과 사용할 수 있을 때 호출

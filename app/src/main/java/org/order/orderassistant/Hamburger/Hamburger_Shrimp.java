@@ -1,4 +1,4 @@
-package org.order.orderassistant;
+package org.order.orderassistant.Hamburger;
 
 import android.Manifest;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import org.order.orderassistant.R;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -164,14 +166,14 @@ public class Hamburger_Shrimp extends AppCompatActivity {
             String txt2 = "슈비";
             if (matches.toString().contains(txt1)) {
                 Toast.makeText(getApplicationContext(), "슈슈버거 선택", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HamburgerFinalActivity.class);
                 intent.putExtra("first",first);
                 intent.putExtra("menu","슈슈버거");
                 startActivity(intent);
                 finish();
             } else if (matches.toString().contains(txt2)) {
                 Toast.makeText(getApplicationContext(), "슈비버거 선택", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HamburgerFinalActivity.class);
                 intent.putExtra("first",first);
                 intent.putExtra("menu","슈비버거");
                 startActivity(intent);

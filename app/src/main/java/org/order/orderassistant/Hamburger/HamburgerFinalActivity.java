@@ -1,6 +1,7 @@
-package org.order.orderassistant;
+package org.order.orderassistant.Hamburger;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,32 +17,40 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import org.order.orderassistant.MainActivity;
+import org.order.orderassistant.R;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
 import static android.speech.tts.TextToSpeech.ERROR;
 
-public class Hamburger_Chicken extends AppCompatActivity {
-    Intent intent;
+//주문 완료 & 확인 페이지
+public class HamburgerFinalActivity extends AppCompatActivity {
     TextToSpeech tts;
+    Intent intent;
     SpeechRecognizer mRecognizer;
-    TextView textView;
     Button sttBtn;
+    TextView textView,textView2;
     final int PERMISSION = 1;
-    String first;
-
+    String first,menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hamburger_chicken);
+        setContentView(R.layout.activity_final);
 
-        //이전 액티비티에서 값 받아오기
         Intent intent2=getIntent();
         first=intent2.getExtras().getString("first");
+        menu=intent2.getExtras().getString("menu");
+        Log.d("success",first);
+        Log.d("success",menu);
 
-        textView = (TextView) findViewById(R.id.chicken_sttResult);
-        sttBtn = (Button) findViewById(R.id.chicken_sttStart);
-        //ttsBtn = (Button) findViewById(R.id.ttsStart);
+
+        textView = (TextView) findViewById(R.id.final_sttResult);
+        textView2 = (TextView) findViewById(R.id.final_sttResult2);
+        textView.setText(first);
+        textView2.setText(menu);
+        sttBtn = (Button) findViewById(R.id.final_sttStart);
 
         //tts 객체 생성하고 OnInitListener로 초기화 함
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -48,7 +58,25 @@ public class Hamburger_Chicken extends AppCompatActivity {
             public void onInit(int status) {
                 if (status != ERROR) {
                     tts.setLanguage(Locale.KOREAN);
-                    tts.speak("메뉴 종류로는 상하이버거와 맥치킨이 있습니다. 이 중에 선택해주세요", TextToSpeech.QUEUE_FLUSH, null);
+
+                    tts.speak(textView2.getText().toString()+" "+textView.getText().toString()+"주문하셨습니다.사이드 메뉴를 주문하시겠어요?", TextToSpeech.QUEUE_FLUSH, null);
+                    /*
+                    if(first=="매장"){
+                        tts.speak("매장에서", TextToSpeech.QUEUE_FLUSH, null);
+                        tts.speak(menu, TextToSpeech.QUEUE_FLUSH, null);
+                        tts.speak("주문하셨습니다.", TextToSpeech.QUEUE_FLUSH, null);
+
+                    }else if(first=="포장"){
+                        tts.speak("매장에서", TextToSpeech.QUEUE_FLUSH, null);
+                        tts.speak(menu, TextToSpeech.QUEUE_FLUSH, null);
+                        tts.speak("주문하셨습니다.", TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                    else{
+                        tts.speak("주문이 잘못되었습니다.",TextToSpeech.QUEUE_FLUSH,null);
+                    }
+
+                     */
+
                 }
             }
         });
@@ -160,24 +188,25 @@ public class Hamburger_Chicken extends AppCompatActivity {
             }
             Toast.makeText(getApplicationContext(), matches.toString(), Toast.LENGTH_LONG).show();
 
-            String txt1 = "상하이";
-            String txt2 = "맥치킨";
-
-            if (matches.toString().contains(txt1)) {
-                Toast.makeText(getApplicationContext(), "상하이버거 선택", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
-                intent.putExtra("first",first);
-                intent.putExtra("menu","상하이버거");
+            String txt1 = "네";
+            String txt2 = "사이드";
+            String txt3="아니";
+            if (matches.toString().contains(txt1) || matches.toString().contains(txt2)) {
+                Toast.makeText(getApplicationContext(), "사이드", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("first", first);
+                intent.putExtra("menu", menu);
                 startActivity(intent);
-                finish();
-            } else if (matches.toString().contains(txt2)) {
-                Toast.makeText(getApplicationContext(), "맥치킨 선택", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
-                intent.putExtra("first",first);
-                intent.putExtra("menu","맥치킨");
-                startActivity(intent);
-                finish();
+                //finish();
             }
+            else if (matches.toString().contains(txt3)) {
+                Toast.makeText(getApplicationContext(), "주문 완료", Toast.LENGTH_LONG).show();
+                //Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
+                //intent.putExtra("first", "포장");
+                //startActivity(intent);
+                //finish();
+            }
+
             else {
                 tts.speak("한번 더 말해주세요.", TextToSpeech.QUEUE_FLUSH, null);
             }

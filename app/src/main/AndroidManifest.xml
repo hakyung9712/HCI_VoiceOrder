@@ -13,10 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".FinalActivity"></activity>
-        <activity android:name=".Hamburger_Shrimp" />
-        <activity android:name=".Hamburger_Chicken" />
-        <activity android:name=".Hamburger_Meat" />
-        <activity android:name=".Third_Hamburger" />
+        <activity android:name=".Hamburger.Hamburger_Shrimp" />
+        <activity android:name=".Hamburger.Hamburger_Chicken" />
+        <activity android:name=".Hamburger.Hamburger_Meat" />
+        <activity android:name=".Hamburger.Third_Hamburger" />
+        <activity android:name=".SideMenu.Sidemenu"/>
         <activity android:name=".SecondActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
